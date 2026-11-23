@@ -6,21 +6,26 @@
     "build": "vite build && vite build --ssr",
     "dev": "vite",
     "build:ssr": "vite build --ssr",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^10.0.0",
     "@tailwindcss/vite": "^4.0.0",
     "@types/node": "^26.6.6",
     "@vitejs/plugin-vue": "^6.0.11",
+    "@vue/test-utils": "^2.6.0",
     "concurrently": "^10.0.3",
     "eslint": "^10.15.0",
     "eslint-plugin-format": "^2.0.1",
+    "jsdom": "^31.0.1",
     "laravel-vite-plugin": "^3.1",
     "tailwindcss": "^4.0.0",
     "typescript": "^5.9.3",
     "vite": "^8.0.0",
     "vite-plugin-vue-devtools": "^8.2.1",
+    "vitest": "^5.1.1",
     "vue-tsc": "^2.2.12"
   },
   "optionalDependencies": {
