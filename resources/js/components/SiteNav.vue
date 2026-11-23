@@ -1,11 +1,36 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
+import { Link, router } from '@inertiajs/vue3'
+import { ref } from 'vue'
 import ThemeSwitcher from '@/components/ThemeSwitcher.vue'
 import { useShared } from '@/composables/useShared'
 import { useUiStore } from '@/stores/ui'
 
 const { user } = useShared()
 const ui = useUiStore()
+const menuOpen = ref(false)
+let closeTimer: ReturnType<typeof setTimeout> | null = null
+
+function openMenu() {
+  if (closeTimer) {
+    clearTimeout(closeTimer)
+    closeTimer = null
+  }
+  menuOpen.value = true
+}
+
+function scheduleClose() {
+  if (closeTimer)
+    clearTimeout(closeTimer)
+  closeTimer = setTimeout(() => {
+    menuOpen.value = false
+    closeTimer = null
+  }, 150)
+}
+
+function logout() {
+  menuOpen.value = false
+  router.post('/logout')
+}
 
 const links = [
   { href: '/', label: 'Home' },
@@ -46,13 +71,56 @@ const links = [
         >
           Sign in
         </Link>
-        <Link
+        <div
           v-else
-          href="/account"
-          class="hidden rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold md:inline-flex dark:border-neutral-800"
+          class="relative hidden md:block"
+          @mouseenter="openMenu"
+          @mouseleave="scheduleClose"
         >
-          {{ user.name }}
-        </Link>
+          <button
+            type="button"
+            class="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold dark:border-neutral-800"
+            :aria-expanded="menuOpen"
+            aria-haspopup="menu"
+            @click="menuOpen = !menuOpen"
+            @focus="openMenu"
+          >
+            {{ user.name }}
+          </button>
+          <div
+            v-show="menuOpen"
+            role="menu"
+            class="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-lg dark:border-neutral-800 dark:bg-neutral-950"
+          >
+            <p class="truncate border-b border-neutral-100 px-4 py-2 text-xs text-neutral-500 dark:border-neutral-900">
+              {{ user.email }}
+            </p>
+            <Link
+              href="/account"
+              role="menuitem"
+              class="block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-900"
+              @click="menuOpen = false"
+            >
+              Account
+            </Link>
+            <a
+              v-if="user.is_admin"
+              href="/admin"
+              role="menuitem"
+              class="block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-900"
+            >
+              Admin panel
+            </a>
+            <button
+              type="button"
+              role="menuitem"
+              class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-neutral-100 dark:hover:bg-neutral-900"
+              @click="logout"
+            >
+              Sign out
+            </button>
+          </div>
+        </div>
         <button
           type="button"
           class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 md:hidden dark:border-neutral-800"

@@ -1,5 +1,5 @@
 import { computed, createBlock, createCommentVNode, createSSRApp, createTextVNode, createVNode, defineComponent, h, mergeProps, onMounted, openBlock, ref, resolveDynamicComponent, toDisplayString, unref, useSSRContext, watch, withCtx } from "vue";
-import { ssrIncludeBooleanAttr, ssrInterpolate, ssrRenderAttr, ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrRenderSlot, ssrRenderVNode } from "vue/server-renderer";
+import { ssrIncludeBooleanAttr, ssrInterpolate, ssrRenderAttr, ssrRenderAttrs, ssrRenderComponent, ssrRenderList, ssrRenderSlot, ssrRenderStyle, ssrRenderVNode } from "vue/server-renderer";
 import { Head, Link, createInertiaApp, router, useForm, usePage } from "@inertiajs/vue3";
 import { Toaster, toast } from "vue-sonner";
 import { toTypedSchema } from "@vee-validate/zod";
@@ -1056,6 +1056,7 @@ var SiteNav_vue_vue_type_script_setup_true_lang_default = /*@__PURE__*/ defineCo
 	setup(__props) {
 		const { user } = useShared();
 		const ui = useUiStore();
+		const menuOpen = ref(false);
 		const links = [
 			{
 				href: "/",
@@ -1128,16 +1129,24 @@ var SiteNav_vue_vue_type_script_setup_true_lang_default = /*@__PURE__*/ defineCo
 				}),
 				_: 1
 			}, _parent));
-			else _push(ssrRenderComponent(unref(Link), {
-				href: "/account",
-				class: "hidden rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold md:inline-flex dark:border-neutral-800"
-			}, {
-				default: withCtx((_, _push, _parent, _scopeId) => {
-					if (_push) _push(`${ssrInterpolate(unref(user).name)}`);
-					else return [createTextVNode(toDisplayString(unref(user).name), 1)];
-				}),
-				_: 1
-			}, _parent));
+			else {
+				_push(`<div class="relative hidden md:block"><button type="button" class="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold dark:border-neutral-800"${ssrRenderAttr("aria-expanded", menuOpen.value)} aria-haspopup="menu">${ssrInterpolate(unref(user).name)}</button><div role="menu" class="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-lg dark:border-neutral-800 dark:bg-neutral-950" style="${ssrRenderStyle(menuOpen.value ? null : { display: "none" })}"><p class="truncate border-b border-neutral-100 px-4 py-2 text-xs text-neutral-500 dark:border-neutral-900">${ssrInterpolate(unref(user).email)}</p>`);
+				_push(ssrRenderComponent(unref(Link), {
+					href: "/account",
+					role: "menuitem",
+					class: "block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-900",
+					onClick: ($event) => menuOpen.value = false
+				}, {
+					default: withCtx((_, _push, _parent, _scopeId) => {
+						if (_push) _push(` Account `);
+						else return [createTextVNode(" Account ")];
+					}),
+					_: 1
+				}, _parent));
+				if (unref(user).is_admin) _push(`<a href="/admin" role="menuitem" class="block px-4 py-2 text-sm hover:bg-neutral-100 dark:hover:bg-neutral-900"> Admin panel </a>`);
+				else _push(`<!---->`);
+				_push(`<button type="button" role="menuitem" class="block w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-neutral-100 dark:hover:bg-neutral-900"> Sign out </button></div></div>`);
+			}
 			_push(`<button type="button" class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-neutral-200 md:hidden dark:border-neutral-800" aria-label="Toggle menu"> ☰ </button></div></nav>`);
 			if (unref(ui).mobileNavOpen) {
 				_push(`<div class="border-t border-neutral-200 px-4 py-3 md:hidden dark:border-neutral-800"><div class="grid gap-1"><!--[-->`);
