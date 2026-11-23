@@ -1,0 +1,23 @@
+[program:ssr]
+command=php %(ENV_HOME)s/htdocs/current/artisan inertia:start-ssr
+directory=%(ENV_HOME)s/htdocs/current
+autostart=true
+autorestart=true
+user=%(ENV_USER)s
+redirect_stderr=true
+stdout_logfile=%(ENV_HOME)s/logs/ssr.log
+stopasgroup=true
+killasgroup=true
+
+[program:queue]
+command=php %(ENV_HOME)s/htdocs/current/artisan queue:work redis --queue=high,default,mail,media --sleep=3 --tries=3 --max-time=3600
+directory=%(ENV_HOME)s/htdocs/current
+autostart=true
+autorestart=true
+user=%(ENV_USER)s
+redirect_stderr=true
+stdout_logfile=%(ENV_HOME)s/logs/queue.log
+stopasgroup=true
+killasgroup=true
+numprocs=2
+process_name=%(program_name)s_%(process_num)02d

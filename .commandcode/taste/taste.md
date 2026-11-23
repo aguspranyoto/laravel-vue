@@ -1,0 +1,1 @@
+- Always use latest versions for frameworks/libraries when scaffolding. Confidence: 0.9

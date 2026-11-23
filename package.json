@@ -1,0 +1,47 @@
+{
+  "$schema": "https://www.schemastore.org/package.json",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build && vite build --ssr",
+    "dev": "vite",
+    "build:ssr": "vite build --ssr",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^10.0.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^26.6.6",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "concurrently": "^10.0.3",
+    "eslint": "^10.15.0",
+    "eslint-plugin-format": "^2.0.1",
+    "laravel-vite-plugin": "^3.1",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.0",
+    "vite-plugin-vue-devtools": "^8.2.1",
+    "vue-tsc": "^2.2.12"
+  },
+  "optionalDependencies": {
+    "@laravel/multiplex": "^0.4.1"
+  },
+  "dependencies": {
+    "@inertiajs/vite": "^3.11.0",
+    "@inertiajs/vue3": "^3.11.0",
+    "@tiptap/extension-image": "^3.35.0",
+    "@tiptap/extension-link": "^3.35.0",
+    "@tiptap/extension-text-align": "^3.35.0",
+    "@tiptap/extension-typography": "^3.35.0",
+    "@tiptap/extension-underline": "^3.35.0",
+    "@tiptap/starter-kit": "^3.35.0",
+    "@tiptap/vue-3": "^3.35.0",
+    "@vee-validate/zod": "^4.15.1",
+    "@vue/server-renderer": "^3.5.46",
+    "pinia": "^4.1.0",
+    "vee-validate": "^4.15.1",
+    "vue": "^3.5.46",
+    "vue-sonner": "^2.0.9",
+    "zod": "^3.25.76"
+  }
+}
