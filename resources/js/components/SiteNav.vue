@@ -79,13 +79,22 @@ const links = [
         >
           <button
             type="button"
-            class="rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold dark:border-neutral-800"
+            class="inline-flex items-center gap-1.5 rounded-lg border border-neutral-200 px-4 py-2 text-sm font-semibold dark:border-neutral-800"
             :aria-expanded="menuOpen"
             aria-haspopup="menu"
             @click="menuOpen = !menuOpen"
             @focus="openMenu"
           >
             {{ user.name }}
+            <svg
+              class="h-3.5 w-3.5 text-neutral-500 transition-transform dark:text-neutral-400"
+              :class="{ 'rotate-180': menuOpen }"
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </button>
           <div
             v-show="menuOpen"
